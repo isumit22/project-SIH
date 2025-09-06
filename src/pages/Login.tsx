@@ -170,6 +170,7 @@ window.dispatchEvent(new Event("storage")); // 🔑 Notify App.tsx that login ha
   <p className="text-sm text-gray-600">
     Demo credentials:<br />
     Citizen → citizen@swachh.com / citizen123<br />
+    Citizen → Only working currently<br />
     Worker → worker@swachh.com / worker123<br />
     Admin → admin@swachh.com / admin123<br />
     Committee → committee@swachh.com / committee123
