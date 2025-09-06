@@ -29,7 +29,7 @@ const TrainingModule: React.FC = () => {
         'Common mistakes to avoid',
         'Environmental impact of proper segregation'
       ],
-      videoUrl: '/public/videos/video1.mp4'
+      videoUrl: '/videos/video1.mp4'
     },
     {
       id: 2,
@@ -45,7 +45,7 @@ const TrainingModule: React.FC = () => {
         'Metal recycling guidelines',
         'Glass disposal best practices'
       ],
-      videoUrl: '/public/videos/video2.mp4'
+      videoUrl: '/videos/video2.mp4'
     },
     {
       id: 3,
@@ -61,7 +61,7 @@ const TrainingModule: React.FC = () => {
         'Certified e-waste collection centers',
         'Environmental hazards of improper disposal'
       ],
-      videoUrl: '/public/videos/video3.mp4'
+      videoUrl: '/videos/video3.mp4'
     },
     {
       id: 4,
@@ -77,7 +77,7 @@ const TrainingModule: React.FC = () => {
         'Maintaining optimal conditions',
         'Using finished compost in gardening'
       ],
-      videoUrl: '/public/videos/video4.mp4'
+      videoUrl: '/videos/video4.mp4'
     }
   ];
 
