@@ -44,7 +44,8 @@ const TrainingModule: React.FC = () => {
         'Paper and cardboard recycling',
         'Metal recycling guidelines',
         'Glass disposal best practices'
-      ]
+      ],
+      videoUrl: '/video/video2.mp4'
     },
     {
       id: 3,
@@ -59,7 +60,8 @@ const TrainingModule: React.FC = () => {
         'Data security before disposal',
         'Certified e-waste collection centers',
         'Environmental hazards of improper disposal'
-      ]
+      ],
+      videoUrl: '/video/video3.mp4'
     },
     {
       id: 4,
@@ -74,7 +76,8 @@ const TrainingModule: React.FC = () => {
         'What to compost and what to avoid',
         'Maintaining optimal conditions',
         'Using finished compost in gardening'
-      ]
+      ],
+      videoUrl: '/video/video4.mp4'
     }
   ];
 
