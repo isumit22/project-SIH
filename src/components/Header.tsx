@@ -47,12 +47,15 @@ const Header: React.FC = () => {
           {/* Right Section */}
           <div className="flex items-center space-x-4">
             {/* Green Coins */}
-            {user && (
-              <div className="flex items-center space-x-2 bg-gradient-to-r from-yellow-100 to-orange-100 px-3 py-1 rounded-full">
-                <Coins className="w-4 h-4 text-yellow-600" />
-                <span className="font-semibold text-yellow-700">{user.greenCoins}</span>
-              </div>
-            )}
+           {user && (
+  <button
+    onClick={() => navigate("/rewards")}
+    className="flex items-center space-x-2 bg-gradient-to-r from-yellow-100 to-orange-100 px-3 py-1 rounded-full hover:shadow-md transition"
+  >
+    <Coins className="w-4 h-4 text-yellow-600" />
+    <span className="font-semibold text-yellow-700">{user.greenCoins}</span>
+  </button>
+)}
 
             {/* Notifications */}
             <div className="relative">

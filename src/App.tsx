@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Login from './pages/Login';
+import RewardsPage from "./pages/RewardsPage";
 import CitizenDashboard from './pages/CitizenDashboard';
 import WorkerDashboard from './pages/WorkerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -86,6 +87,11 @@ function App() {
 
               {/* ✅ New Profile Page */}
               <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />} />
+              {/* Rewards Page */}
+<Route
+  path="/rewards"
+  element={isAuthenticated ? <RewardsPage /> : <Navigate to="/login" />}
+/>
 
               {/* Default */}
               <Route path="/" element={<Navigate to="/login" />} />
