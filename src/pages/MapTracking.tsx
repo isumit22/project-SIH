@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { MapPin, Navigation, Truck, AlertTriangle, Clock, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, Truck } from 'lucide-react';
 
 const MapTracking: React.FC = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
-  const [trackingMode, setTrackingMode] = useState<'vehicles' | 'complaints'>('vehicles');
+  const [trackingMode, setTrackingMode] = useState<'vehicles' | 'complaints' | 'pickups'>('vehicles');
 
   const vehicles = [
     {
@@ -63,6 +63,30 @@ const MapTracking: React.FC = () => {
     }
   ];
 
+  const pickupPoints = [
+    {
+      area: 'Alpha 1',
+      points: [
+        { location: 'Alpha 1 Main Market', time: '7:00 AM - 8:00 AM' },
+        { location: 'Alpha 1 Block A', time: '8:15 AM - 9:00 AM' },
+      ]
+    },
+    {
+      area: 'Beta 1',
+      points: [
+        { location: 'Beta Plaza', time: '7:30 AM - 8:30 AM' },
+        { location: 'Beta Park Area', time: '8:45 AM - 9:30 AM' },
+      ]
+    },
+    {
+      area: 'Gamma 1',
+      points: [
+        { location: 'Gamma 1 Gate No. 2', time: '6:30 AM - 7:30 AM' },
+        { location: 'Gamma Market Road', time: '7:45 AM - 8:30 AM' },
+      ]
+    },
+  ];
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'collecting': return 'text-blue-600 bg-blue-100';
@@ -75,15 +99,6 @@ const MapTracking: React.FC = () => {
     }
   };
 
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-yellow-600';
-      case 'low': return 'text-green-600';
-      default: return 'text-gray-600';
-    }
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
@@ -93,7 +108,7 @@ const MapTracking: React.FC = () => {
             <MapPin className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Real-Time Tracking</h1>
-          <p className="text-gray-600">Monitor waste collection vehicles and manage complaints</p>
+          <p className="text-gray-600">Monitor vehicles, complaints & pickup schedules</p>
         </div>
 
         {/* Mode Toggle */}
@@ -107,7 +122,7 @@ const MapTracking: React.FC = () => {
                   : 'text-gray-600 hover:text-orange-600'
               }`}
             >
-              Vehicle Tracking
+              Vehicles
             </button>
             <button
               onClick={() => setTrackingMode('complaints')}
@@ -117,183 +132,111 @@ const MapTracking: React.FC = () => {
                   : 'text-gray-600 hover:text-orange-600'
               }`}
             >
-              Complaint Management
+              Complaints
+            </button>
+            <button
+              onClick={() => setTrackingMode('pickups')}
+              className={`px-6 py-3 rounded-lg transition-colors ${
+                trackingMode === 'pickups'
+                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+                  : 'text-gray-600 hover:text-orange-600'
+              }`}
+            >
+              Pickup Points
             </button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map Section */}
-          <div className="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="h-96 bg-gradient-to-br from-green-200 via-blue-200 to-purple-200 relative">
-              {/* Simulated Map */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <Navigation className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-600 mb-2">Interactive Map</h3>
-                  <p className="text-gray-500">Real-time GPS tracking visualization</p>
-                </div>
-              </div>
+          <div className="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden relative">
+            <div
+              className="h-96 bg-cover bg-center relative"
+              style={{ backgroundImage: "url('/folder/greater-noida-map.jpg')" }}
+            >
+              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
 
-              {/* Vehicle Markers */}
-              {trackingMode === 'vehicles' && vehicles.map((vehicle, index) => (
-                <div
-                  key={vehicle.id}
-                  className="absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    left: `${20 + index * 30}%`,
-                    top: `${30 + index * 20}%`
-                  }}
-                  onClick={() => setSelectedVehicle(vehicle)}
-                >
-                  <div className="relative">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center animate-pulse">
-                      <Truck className="w-4 h-4 text-white" />
+              {/* 🚛 Truck Markers */}
+              {vehicles.map((v, index) => {
+                const positions = [
+                  { left: "45%", top: "55%" }, // VH-001
+                  { left: "60%", top: "35%" }, // VH-002
+                  { left: "72%", top: "65%" }, // VH-003
+                ];
+
+                return (
+                  <div
+                    key={v.id}
+                    onClick={() => setSelectedVehicle(v)}
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                    style={positions[index]}
+                  >
+                    <div className="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                      <Truck className="w-5 h-5 text-white" />
                     </div>
-                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-lg text-xs whitespace-nowrap">
-                      {vehicle.id}
+                    <div className="mt-1 bg-white px-2 py-1 rounded shadow text-xs font-semibold text-gray-800 text-center">
+                      {v.id} ({v.status})
                     </div>
                   </div>
-                </div>
-              ))}
-
-              {/* Complaint Markers */}
-              {trackingMode === 'complaints' && complaints.map((complaint, index) => (
-                <div
-                  key={complaint.id}
-                  className="absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    left: `${25 + index * 35}%`,
-                    top: `${40 + index * 15}%`
-                  }}
-                >
-                  <div className="relative">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center animate-bounce ${
-                      complaint.severity === 'high' ? 'bg-red-500' : 'bg-yellow-500'
-                    }`}>
-                      <AlertTriangle className="w-4 h-4 text-white" />
-                    </div>
-                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-lg text-xs whitespace-nowrap">
-                      {complaint.type}
-                    </div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* Info Panel */}
           <div className="space-y-6">
-            {trackingMode === 'vehicles' ? (
-              <>
-                {/* Vehicle List */}
-                <div className="bg-white rounded-xl shadow-lg p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-6">Active Vehicles</h2>
-                  <div className="space-y-4">
-                    {vehicles.map((vehicle) => (
-                      <div
-                        key={vehicle.id}
-                        className={`p-4 rounded-lg border cursor-pointer transition-colors ${
-                          selectedVehicle?.id === vehicle.id
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-blue-300'
-                        }`}
-                        onClick={() => setSelectedVehicle(vehicle)}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-semibold text-gray-800">{vehicle.id}</h3>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(vehicle.status)}`}>
-                            {vehicle.status}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600 mb-2">{vehicle.driver}</p>
-                        <p className="text-sm text-gray-600 mb-3">{vehicle.location}</p>
-                        
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">Progress</span>
-                            <span className="font-medium">{vehicle.progress}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-blue-500 h-2 rounded-full transition-all duration-500"
-                              style={{ width: `${vehicle.progress}%` }}
-                            ></div>
-                          </div>
-                          <div className="flex justify-between text-xs text-gray-500">
-                            <span>{vehicle.routeCompleted}</span>
-                            <span>ETA: {vehicle.eta}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Selected Vehicle Details */}
-                {selectedVehicle && (
-                  <div className="bg-white rounded-xl shadow-lg p-6">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">Vehicle Details</h2>
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3">
-                        <Truck className="w-5 h-5 text-blue-500" />
-                        <div>
-                          <h3 className="font-semibold">{selectedVehicle.id}</h3>
-                          <p className="text-sm text-gray-600">Driver: {selectedVehicle.driver}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center space-x-3">
-                        <MapPin className="w-5 h-5 text-green-500" />
-                        <div>
-                          <h4 className="font-medium">Current Location</h4>
-                          <p className="text-sm text-gray-600">{selectedVehicle.location}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center space-x-3">
-                        <Clock className="w-5 h-5 text-orange-500" />
-                        <div>
-                          <h4 className="font-medium">Estimated Completion</h4>
-                          <p className="text-sm text-gray-600">{selectedVehicle.eta}</p>
-                        </div>
-                      </div>
+            {trackingMode === 'vehicles' && (
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-6">Active Vehicles</h2>
+                {vehicles.map((v) => (
+                  <div
+                    key={v.id}
+                    onClick={() => setSelectedVehicle(v)}
+                    className={`mb-4 p-3 border rounded-lg hover:border-blue-400 cursor-pointer ${
+                      selectedVehicle?.id === v.id ? 'border-blue-500 bg-blue-50' : ''
+                    }`}
+                  >
+                    <div className="flex justify-between">
+                      <span className="font-semibold">{v.id}</span>
+                      <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(v.status)}`}>
+                        {v.status}
+                      </span>
                     </div>
+                    <p className="text-sm text-gray-600">{v.driver}</p>
+                    <p className="text-xs text-gray-500">{v.location}</p>
                   </div>
-                )}
-              </>
-            ) : (
-              /* Complaints Panel */
+                ))}
+              </div>
+            )}
+
+            {trackingMode === 'complaints' && (
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-6">Active Complaints</h2>
-                <div className="space-y-4">
-                  {complaints.map((complaint) => (
-                    <div key={complaint.id} className="border border-gray-200 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-gray-800">{complaint.type}</h3>
-                        <span className={`text-sm font-medium ${getSeverityColor(complaint.severity)}`}>
-                          {complaint.severity.toUpperCase()}
-                        </span>
-                      </div>
-                      
-                      <p className="text-sm text-gray-600 mb-2">{complaint.location}</p>
-                      <p className="text-xs text-gray-500 mb-3">Reported by: {complaint.reportedBy}</p>
-                      
-                      <div className="flex items-center justify-between text-sm">
-                        <span className={`px-2 py-1 rounded-full ${getStatusColor(complaint.status)}`}>
-                          {complaint.status}
-                        </span>
-                        <span className="text-gray-500">{complaint.timeReported}</span>
-                      </div>
-                      
-                      {complaint.assignedTo && (
-                        <div className="mt-2 text-xs text-blue-600">
-                          Assigned to: {complaint.assignedTo}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                {complaints.map((c) => (
+                  <div key={c.id} className="mb-4 p-3 border rounded-lg">
+                    <h3 className="font-semibold">{c.type}</h3>
+                    <p className="text-sm text-gray-600">{c.location}</p>
+                    <p className="text-xs text-gray-500">{c.timeReported}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {trackingMode === 'pickups' && (
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-6">Pickup Points</h2>
+                {pickupPoints.map((area) => (
+                  <div key={area.area} className="mb-4">
+                    <h3 className="font-semibold text-orange-600">{area.area}</h3>
+                    <ul className="pl-4 list-disc text-sm text-gray-700">
+                      {area.points.map((p, i) => (
+                        <li key={i}>
+                          {p.location} – <span className="text-gray-500">{p.time}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             )}
           </div>

@@ -8,6 +8,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<'citizen' | 'worker' | 'admin' | 'committee'>('citizen');
+
   const navigate = useNavigate();
   const { setUser } = useUser();
   const { addNotification } = useNotifications();
