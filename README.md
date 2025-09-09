@@ -5,7 +5,7 @@ Swachh is an AI + Blockchain powered waste management solution designed to make 
 ---
 
 ## 📸 Demo  
-https://project-sih-lemon.vercel.app/login
+https://project-sih-lemon.vercel.app/
 
 ---
 
